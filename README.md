@@ -19,7 +19,7 @@ Navigate into each assignment's subdirectory to find specific instructions for i
 
 ## License
 
-[Specify the license here]
+This project is licensed under the GNU General Public License v3.0 - see the [LICENSE](LICENSE) file for details.
 
 
 ## Group Members
