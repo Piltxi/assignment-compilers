@@ -114,44 +114,6 @@ bool applyStrengthReduction(Instruction &InstructionRef) {
   return false;
 }
 
-/// Applies algebraic simplifications to addition and multiplication
-/// instructions by removing operations when one of the operands is a neutral
-/// element (e.g., 0 for addition, 1 for multiplication).
-///
-/// @param InstructionRef Reference to the instruction to potentially simplify.
-/// @return True if the instruction was simplified; otherwise, false.
-bool applyAlgebraicSimplifications(Instruction &InstructionRef) {
-  auto OperationCode = InstructionRef.getOpcode();
-  if (OperationCode != Instruction::Mul && OperationCode != Instruction::Add)
-    return false;
-
-  Value *Operand1 = InstructionRef.getOperand(0);
-  Value *Operand2 = InstructionRef.getOperand(1);
-  const ConstantInt *NeutralElementConst = nullptr;
-
-  auto isNeutralElement = [&NeutralElementConst,
-                           OperationCode](const Value *Operand) -> bool {
-    if (const auto *ConstInt = dyn_cast<ConstantInt>(Operand)) {
-      if ((OperationCode == Instruction::Add && ConstInt->isZero()) ||
-          (OperationCode == Instruction::Mul && ConstInt->isOne())) {
-        NeutralElementConst = ConstInt;
-        return true;
-      }
-    }
-    return false;
-  };
-
-  if (!isNeutralElement(Operand2) && !isNeutralElement(Operand1))
-    return false;
-
-  Value *NonNeutralOperand =
-      (Operand1 == NeutralElementConst) ? Operand2 : Operand1;
-  InstructionRef.replaceAllUsesWith(NonNeutralOperand);
-  InstructionRef.eraseFromParent();
-
-  return true;
-}
-
 /// Iterates over all instructions within a given basic block and applies
 /// optimizations including strength reduction and algebraic simplifications.
 ///
@@ -162,7 +124,6 @@ bool StrengthReductionPass::runOnBasicBlock(BasicBlock &BasicBlockRef) {
   bool HasChanged = false;
   for (auto &Inst : llvm::make_early_inc_range(BasicBlockRef)) {
     HasChanged |= applyStrengthReduction(Inst);
-    HasChanged |= applyAlgebraicSimplifications(Inst);
   }
   return HasChanged;
 }
