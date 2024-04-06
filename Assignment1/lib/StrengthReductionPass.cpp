@@ -29,27 +29,20 @@ bool isOptimizableConstant(const Value *Operand,
 
   if (const auto *ConstInt = dyn_cast<ConstantInt>(Operand)) {
     APInt Val = ConstInt->getValue();
+    unsigned NearestPower = Val.nearestLogBase2();
+    APInt NearestPowerValue = APInt(Val.getBitWidth(), 1) << NearestPower;
 
-    // Direct power of 2
-    if (Val.isPowerOf2()) {
+    // Check if the value or its closest neighbors are powers of 2
+    if (NearestPowerValue == Val) {
       *ConstantValue = ConstInt;
       RequiresSubtraction = false;
-      ShiftAmount = Val.logBase2();
+      ShiftAmount = NearestPower;
       return true;
-    }
-
-    // One less or more than a power of 2
-    if ((Val + 1).isPowerOf2()) {
+    } else if ((NearestPowerValue - 1) == Val ||
+               (NearestPowerValue + 1) == Val) {
       *ConstantValue = ConstInt;
-      RequiresSubtraction = true;
-      ShiftAmount = (Val + 1).logBase2();
-      return true;
-    }
-
-    if ((Val - 1).isPowerOf2()) {
-      *ConstantValue = ConstInt;
-      RequiresSubtraction = false;
-      ShiftAmount = (Val - 1).logBase2();
+      RequiresSubtraction = NearestPowerValue.ugt(Val);
+      ShiftAmount = NearestPower;
       return true;
     }
   }
