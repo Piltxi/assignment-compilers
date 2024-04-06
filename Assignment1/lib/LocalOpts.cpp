@@ -8,9 +8,11 @@
 using namespace llvm;
 namespace firstAssignment {
 
-/// @brief Apply the optimization pass on a basic block.
-/// @param function Reference to the basic block to optimize.
-/// @return True if the basic block was transformed.
+/// Applies optimization passes on each basic block within a function to enhance
+/// performance. Iterates over each basic block and optimizes it if possible.
+///
+/// @param FunctionRef A reference to the function being optimized.
+/// @return True if any basic block within the function was optimized.
 bool LocalOpts::runOnFunction(Function &function) {
   bool transformed = false;
   for (auto &bb : function) {
@@ -21,10 +23,13 @@ bool LocalOpts::runOnFunction(Function &function) {
   return transformed;
 }
 
-/// @brief Apply the optimization pass on a module.
-/// @param module Reference to the module to optimize.
-/// @param manager Reference to the analysis manager.
-/// @return A set of preserved analyses.
+/// Optimizes each function within a given LLVM module by applying specific
+/// optimization techniques. Iterates over all functions in the module and
+/// applies optimization passes.
+///
+/// @param ModuleRef Reference to the module being optimized.
+/// @param AnalysisManagerRef Reference to the module's analysis manager.
+/// @return A set of analyses that are preserved after the optimization passes.
 PreservedAnalyses LocalOpts::run(Module &module,
                                  ModuleAnalysisManager &manager) {
   for (auto &function : module) {
