@@ -115,7 +115,7 @@ bool applyStrengthReduction(Instruction &InstructionRef) {
 }
 
 /// Iterates over all instructions within a given basic block and applies
-/// optimizations including strength reduction and algebraic simplifications.
+/// the optimization.
 ///
 /// @param BasicBlockRef Reference to the basic block to optimize.
 /// @return True if any instruction within the block was optimized; otherwise,
