@@ -47,3 +47,5 @@ Replace `<file_to_optimize>.ll` with the path to your LLVM IR code file, and `<o
 | Name  | Matricola |
 |-------|-----------|
 |Alessandro Catenacci | 164914 |
+|Elia Pitzalis | 152541 |
+|Francesco Caligiuri | 146666 |

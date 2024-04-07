@@ -26,3 +26,5 @@ This project is licensed under the GNU General Public License v3.0 - see the [LI
 | Name  | Matricola |
 |-------|-----------|
 |Alessandro Catenacci | 164914 |
+|Elia Pitzalis | 152541 |
+|Francesco Caligiuri | 146666 |
