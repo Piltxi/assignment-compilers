@@ -26,7 +26,7 @@ To integrate LocalOpts into your LLVM setup, follow these steps:
 1. **File Placement:**
    - Place the implementation `.cpp` files and the `CMakeLists.txt` file that can be found in the [lib](lib) directory: `AlgebraicIdentityPass.cpp`, `LocalOpts.cpp`, `MIOptimizationPass.cpp`, `StrengthReductionPass.cpp` in `$ROOT/SRC/llvm/lib/Transforms/Utils`.
    - Place `LocalOpts.hpp`, found in the [include](include) directory, in `$ROOT/SRC/llvm/include/llvm/Transforms/Utils`.
-   - Place from the [Passes](Passes) directory or add the individual entries for LocalOpts in both `PassBuilder.cpp` and `PassRegistry.def` that can be found in `$ROOT/SRC/llvm/lib/Passes/Transforms/Utils`.
+   - Place from the [Passes](Passes) directory or add the individual entries for LocalOpts in both `PassBuilder.cpp` and `PassRegistry.def` that can be found in the directory `$ROOT/SRC/llvm/lib/Passes`.
 
 2. **Compilation:**
    - Navigate to your LLVM build directory (`$ROOT/BUILD`).
