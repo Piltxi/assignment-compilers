@@ -5,6 +5,7 @@ This repository contains assignments for the Languages and Compilers course at t
 ## Repository Structure
 
 - [`Assignment1/`](Assignment1/) - Local Optimization Passes for LLVM's `opt` tool. Implements Algebraic Identity Optimization, Strength Reduction, and Multi-Instruction Optimization. [See README](Assignment1/README.md)
+- [`Assignment2/`](Assignment2/) - Exercise and notions on `very busy expression`, `dominator analysis` and `constant propagation`.
 
 ## Getting Started
 
