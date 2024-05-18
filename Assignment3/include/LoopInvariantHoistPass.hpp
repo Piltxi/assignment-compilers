@@ -1,16 +1,14 @@
 #ifndef LLVM_TRANSFORMS_UTILS_LOOPINVARIANTHOISTPASS_HPP
 #define LLVM_TRANSFORMS_UTILS_LOOPINVARIANTHOISTPASS_HPP
 
-#include <llvm/Analysis/LoopAnalysisManager.h>
-#include <llvm/IR/BasicBlock.h>
-#include <llvm/IR/Dominators.h>
-#include <llvm/IR/Instructions.h>
-#include <llvm/IR/PassManager.h>
-#include <llvm/Transforms/Scalar/LoopPassManager.h>
-#include <llvm/Transforms/Utils/LoopUtils.h>
+#include "llvm/Analysis/LoopAnalysisManager.h"
+#include "llvm/IR/Dominators.h"
+#include "llvm/IR/PassManager.h"
+#include "llvm/Transforms/Scalar/LoopPassManager.h"
+#include "llvm/Transforms/Utils/LoopUtils.h"
 #include <map>
 #include <set>
-#include <string>
+#include <vector>
 
 namespace llvm {
 
@@ -28,6 +26,7 @@ private:
   DominatorTree *dominatorTree;
 
   std::set<Instruction *> loopInvariantInstructions;
+  std::vector<Instruction *> invariantInstructionsOrder;
   std::set<Instruction *> hoistableInstructions;
   std::set<Instruction *> nonHoistableInstructions;
 
@@ -36,17 +35,11 @@ private:
 
   std::set<BasicBlock *> loopExitingBlocks;
 
-  void searchForLoopInvariantInstructionsAndLoopExitingBlocks();
-  std::set<Instruction *> getLoopInvariantInstructions(BasicBlock *BB);
-  void searchForHoistableInstructions();
-
-  bool isLoopInvariant(const Instruction &I);
-  bool isLoopInvariant(const Use &U);
-  bool isLoopExiting(const BasicBlock *BB);
-  bool dominatesAllExits(const Instruction *I);
-  bool isDeadAfterLoop(const Instruction *I);
-  bool hasSideEffects(const Instruction *instr);
-
+  void identifyLoopInvariantInstructionsAndExitingBlocks();
+  bool isOperandInvariant(const Use &operand) const;
+  bool isLoopInvariant(const Instruction &instruction) const;
+  void determineHoistableInstructions();
+  bool isLoopExiting(const BasicBlock *basicBlock);
   void printAnalysisResult();
 };
 
